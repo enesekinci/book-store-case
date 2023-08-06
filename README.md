@@ -1,66 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# My Laravel Bookstore API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bu proje, Laravel kullanarak bir kitap mağazası REST API'sini oluşturmak için yapılmıştır. API, kitaplar ve yazarlar tablolarını yönetir ve kitapların listesini döndürür. API ayrıca cache yönetimi, log kaydı ve Telescope gibi bazı özellikleri de içerir.
 
-## About Laravel
+## Özellikler
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   Kitaplar ve yazarlar tablolarını yönetir.
+-   Kitaplar listesini direk iletişime geçerek döndürür.
+-   Read request'leri cache üzerinden cevap döner (yazarlar tablosu ilişkisi ile birlikte).
+-   Update request'leri sonrasında event kullanarak log tablosuna kayıt atar.
+-   Delete request'leri işlemleri queue'ye gönderir.
+-   Telescope, API'ye debugging ve performans izleme özelliği ekler.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Gereksinimler
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   PHP 8.1 veya daha yeni sürümü
+-   Composer (bağımlılıkların yüklenmesi için)
+-   MySQL veritabanı
 
-## Learning Laravel
+## Kurulum Scripti
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Projenin kurulumunu otomatikleştirmek için `install.sh` adında bir bash scripti mevcuttur. Proje dosyalarınızı alıp, gerekli adımları gerçekleştirmek için aşağıdaki komutu çalıştırabilirsiniz:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+./install.sh
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+##### veya aşağıdaki adımları takip edebilirsiniz:
 
-## Laravel Sponsors
+## Kurulum
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. Proje dosyalarını bilgisayarınıza klonlayın ve proje dizinine gidin:
 
-### Premium Partners
+```bash
+git clone https://github.com/kullanici_adi/my-laravel-bookstore.git && cd my-laravel-bookstore
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+2. Proje bağımlılıklarını yükleyin:
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. `.env` dosyasını oluşturun ve veritabanı bağlantı bilgilerinizi ayarlayın:
 
-## Code of Conduct
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Veritabanını oluşturun ve tabloları göç ettirin:
 
-## Security Vulnerabilities
+```bash
+php artisan migrate:fresh
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Dummy data oluşturun:
 
-## License
+```bash
+php artisan db:seed
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Projeyi başlatın:
+
+```bash
+php artisan serve
+```
+
+Proje şimdi http://127.0.0.1:8000 adresinde çalışıyor olmalıdır.
+
+## Kullanım
+
+API'nin kullanımı için endpoint'leri test edebilirsiniz. Örnekler:
+
+| İşlem            | HTTP Metodu | Endpoint                                         |
+| ---------------- | ----------- | ------------------------------------------------ |
+| Kitaplar listesi | GET         | http://127.0.0.1:8000/api/books                  |
+| Kitap detayı     | GET         | http://127.0.0.1:8000/api/books/{bookId}         |
+| Kitap ekleme     | POST        | http://127.0.0.1:8000/api/books/store            |
+| Kitap güncelleme | POST        | http://127.0.0.1:8000/api/books/update/{bookId}  |
+| Kitap silme      | GET         | http://127.0.0.1:8000/api/books/destroy/{bookId} |
